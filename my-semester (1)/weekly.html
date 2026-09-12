@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Semester — Weekly Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="weekly">
+<div class="app-shell">
+  <div id="sidebarSlot"></div>
+  <div class="d-flex flex-column flex-grow-1 min-w-0">
+    <div id="topbarSlot"></div>
+    <main class="main-content">
+
+      <div class="page-head">
+        <div>
+          <h1>Weekly Planner</h1>
+          <p class="subtitle">Your tasks and events, laid out Monday to Sunday.</p>
+        </div>
+      </div>
+
+      <!-- Week navigation -->
+      <div class="card-soft card-pad mb-3">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-soft btn-sm" onclick="msWeeklyToday()">Current Week</button>
+            <button class="btn btn-outline-soft btn-icon btn-sm" onclick="msWeeklyPrev()" aria-label="Previous week"><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-outline-soft btn-icon btn-sm" onclick="msWeeklyNext()" aria-label="Next week"><i class="bi bi-chevron-right"></i></button>
+          </div>
+          <div class="text-center">
+            <div class="section-title" id="weeklyWeekLabel" style="font-size:1.2rem;"></div>
+            <div class="small text-faint" id="weeklyDateRange"></div>
+          </div>
+          <div class="small text-faint" id="weeklyCompletionSummary"></div>
+        </div>
+      </div>
+
+      <!-- 7-day grid -->
+      <div class="weekly-grid-scroll">
+        <div class="weekly-grid" id="weeklyGrid"></div>
+      </div>
+
+      <div class="row g-3 mt-1">
+        <!-- Top 3 priorities -->
+        <div class="col-lg-6">
+          <div class="card-soft card-pad h-100">
+            <div class="section-head">
+              <span class="section-title">Top 3 Priorities</span>
+              <span class="small text-faint" id="weeklyPriorityCount">0 / 3 selected</span>
+            </div>
+            <p class="small text-muted-ink mb-2">Pick up to three tasks to focus on this week.</p>
+            <div id="weeklyPriorityList"></div>
+          </div>
+        </div>
+        <!-- Weekly notes -->
+        <div class="col-lg-6">
+          <div class="card-soft card-pad h-100">
+            <div class="section-head">
+              <span class="section-title">Weekly Notes</span>
+            </div>
+            <textarea class="form-control" id="weeklyNotesArea" rows="6" placeholder="Notes for this week…"></textarea>
+            <div class="text-end mt-2">
+              <button class="btn btn-sage btn-sm" onclick="msSaveWeeklyNote()">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/main.js"></script>
+<script src="js/weekly.js"></script>
+<script>
+  msInitChrome("weekly");
+  msWeeklyInit();
+</script>
+</body>
+</html>

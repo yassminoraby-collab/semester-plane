@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Semester — Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home">
+<div class="app-shell">
+  <div id="sidebarSlot"></div>
+  <div class="d-flex flex-column flex-grow-1 min-w-0">
+    <div id="topbarSlot"></div>
+    <main class="main-content">
+
+      <div class="page-head">
+        <div>
+          <h1 id="greetingText">Good morning ✨</h1>
+          <p class="subtitle">Let's make this semester count.</p>
+        </div>
+        <div class="page-date" id="dashDate"></div>
+      </div>
+
+      <!-- Summary cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+          <div class="stat-card hover-lift">
+            <div class="stat-icon tint-sage"><i class="bi bi-mortarboard"></i></div>
+            <div class="stat-label">Semester GPA</div>
+            <div class="stat-value" id="statGPA">—</div>
+            <div class="stat-sub">Target 3.8+</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card hover-lift">
+            <div class="stat-icon tint-beige"><i class="bi bi-collection"></i></div>
+            <div class="stat-label">Credits</div>
+            <div class="stat-value" id="statCredits">0</div>
+            <div class="stat-sub">This semester</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card hover-lift">
+            <div class="stat-icon tint-rose"><i class="bi bi-check2-circle"></i></div>
+            <div class="stat-label">Completed Tasks</div>
+            <div class="stat-value" id="statCompleted">0</div>
+            <div class="stat-sub">All time</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card hover-lift">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <div class="stat-icon tint-sage"><i class="bi bi-graph-up-arrow"></i></div>
+                <div class="stat-label">Semester Progress</div>
+                <div class="stat-value" id="statProgress">0%</div>
+              </div>
+              <div class="ring" id="progressRing"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <!-- Upcoming deadlines -->
+        <div class="col-lg-7">
+          <div class="card-soft card-pad h-100">
+            <div class="section-head">
+              <span class="section-title">Upcoming Deadlines</span>
+              <a class="link-quiet" href="tasks.html">View all</a>
+            </div>
+            <div id="deadlineList"></div>
+          </div>
+        </div>
+        <!-- Subjects overview -->
+        <div class="col-lg-5">
+          <div class="card-soft card-pad h-100">
+            <div class="section-head">
+              <span class="section-title">My Subjects</span>
+              <a class="link-quiet" href="subjects.html">View all</a>
+            </div>
+            <div id="dashSubjectList"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <!-- Weekly overview -->
+        <div class="col-lg-7">
+          <div class="card-soft card-pad h-100">
+            <div class="section-head">
+              <span class="section-title">This Week</span>
+              <a class="link-quiet" href="calendar.html">Open calendar</a>
+            </div>
+            <div class="week-strip" id="weekStrip"></div>
+          </div>
+        </div>
+        <!-- Daily focus -->
+        <div class="col-lg-5">
+          <div class="card-soft card-pad h-100">
+            <div class="section-head">
+              <span class="section-title">Today's Focus</span>
+            </div>
+            <div id="dailyFocusList"></div>
+            <hr class="divider">
+            <label class="form-label" for="dailyNoteArea">Today's note</label>
+            <textarea class="form-control" id="dailyNoteArea" rows="3" placeholder="Add your notes here…"></textarea>
+            <div class="text-end mt-2">
+              <button class="btn btn-sage btn-sm" onclick="msSaveDailyNote()">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/main.js"></script>
+<script>
+  msInitChrome("home");
+  msRenderDashboard();
+</script>
+</body>
+</html>

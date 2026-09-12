@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Semester — Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="calendar">
+<div class="app-shell">
+  <div id="sidebarSlot"></div>
+  <div class="d-flex flex-column flex-grow-1 min-w-0">
+    <div id="topbarSlot"></div>
+    <main class="main-content">
+
+      <div class="page-head">
+        <div>
+          <h1>Calendar</h1>
+          <p class="subtitle">Keep track of your classes, exams and deadlines.</p>
+        </div>
+        <button class="btn btn-brand" onclick="msOpenEventModal(null, msDateStr(msToday()))"><i class="bi bi-plus-lg me-1"></i>Add Event</button>
+      </div>
+
+      <div class="card-soft card-pad">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-soft btn-sm" onclick="msCalGoToday()">Today</button>
+            <button class="btn btn-outline-soft btn-icon btn-sm" onclick="msCalPrev()" aria-label="Previous month"><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-outline-soft btn-icon btn-sm" onclick="msCalNext()" aria-label="Next month"><i class="bi bi-chevron-right"></i></button>
+          </div>
+          <h2 class="section-title" id="calMonthLabel" style="font-size:1.2rem;"></h2>
+          <div class="d-none d-sm-flex gap-3 small text-faint">
+            <span><span class="cal-event type-lecture" style="padding:2px 8px;">Lecture</span></span>
+            <span><span class="cal-event type-assignment" style="padding:2px 8px;">Assignment</span></span>
+            <span><span class="cal-event type-quiz" style="padding:2px 8px;">Quiz</span></span>
+            <span><span class="cal-event type-midterm" style="padding:2px 8px;">Exam</span></span>
+          </div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Day detail modal -->
+<div class="modal fade" id="dayModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="dayModalDate">Day</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="dayModalList"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-soft" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-brand" onclick="msOpenAddEventFromDay()"><i class="bi bi-plus-lg me-1"></i>Add Event</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit event modal -->
+<div class="modal fade" id="eventModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="eventForm" onsubmit="msSubmitEventForm(event)" novalidate>
+        <div class="modal-header">
+          <h3 class="modal-title" id="eventModalTitle">Add Event</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="eventId">
+          <div class="mb-3 was-validated-field" id="eventFormError">
+            <label class="form-label" for="eventTitle">Event title</label>
+            <input type="text" class="form-control" id="eventTitle" placeholder="e.g. OOP Quiz 1">
+            <div class="invalid-msg">Please enter a title.</div>
+          </div>
+          <div class="row g-3">
+            <div class="col-sm-6 was-validated-field">
+              <label class="form-label" for="eventType">Event type</label>
+              <select class="form-select" id="eventType">
+                <option value="">Choose…</option>
+                <option>Lecture</option><option>Assignment</option><option>Quiz</option>
+                <option>Midterm</option><option>Final</option><option>Study</option><option>Personal</option>
+              </select>
+              <div class="invalid-msg">Please choose a type.</div>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="eventSubject">Subject</label>
+              <select class="form-select" id="eventSubject"></select>
+            </div>
+            <div class="col-sm-6 was-validated-field">
+              <label class="form-label" for="eventDate">Date</label>
+              <input type="date" class="form-control" id="eventDate">
+              <div class="invalid-msg">Please pick a date.</div>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="eventTime">Time</label>
+              <input type="time" class="form-control" id="eventTime">
+            </div>
+            <div class="col-sm-6 was-validated-field">
+              <label class="form-label" for="eventPriority">Priority</label>
+              <select class="form-select" id="eventPriority">
+                <option value="">Choose…</option>
+                <option>High</option><option>Medium</option><option>Low</option>
+              </select>
+              <div class="invalid-msg">Please choose a priority.</div>
+            </div>
+          </div>
+          <div class="mt-3">
+            <label class="form-label" for="eventNotes">Notes</label>
+            <textarea class="form-control" id="eventNotes" rows="2" placeholder="Optional notes…"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-soft" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-brand">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/main.js"></script>
+<script src="js/calendar.js"></script>
+<script>
+  msInitChrome("calendar");
+  msCalInit();
+</script>
+</body>
+</html>
